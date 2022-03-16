@@ -1,8 +1,8 @@
-# Ping CRM
+# Ramonda Ecommerce + Inertia JS
 
 A demo application to illustrate how Inertia.js works.
 
-![](https://raw.githubusercontent.com/inertiajs/pingcrm/master/screenshot.png)
+![](https://ibb.co/zXZkMfk)
 
 ## Installation
 
@@ -69,8 +69,8 @@ php artisan serve
 
 You're ready to go! Visit Ping CRM in your browser, and login with:
 
-- **Username:** johndoe@example.com
-- **Password:** secret
+- **Username:** sinisa.becic@outlook.com
+- **Password:** sinisa94
 
 ## Running tests
 
