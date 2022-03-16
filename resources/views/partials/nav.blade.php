@@ -1,0 +1,12 @@
+<header>
+    <div class="top-nav container">
+        <div class="top-nav-left">
+            <div class="logo"><a href="/">Ramonda Ecommerce</a></div>
+        </div>
+        <div class="top-nav-right">
+            @if (! (request()->is('checkout') || request()->is('guestCheckout')))
+                @include('partials.menus.main-right')
+            @endif
+        </div>
+    </div> <!-- end top-nav -->
+</header>
