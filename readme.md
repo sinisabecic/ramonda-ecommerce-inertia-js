@@ -2,7 +2,7 @@
 
 A demo application to illustrate how Inertia.js works.
 
-![](https://ibb.co/zXZkMfk)
+![](https://i.ibb.co/bsXf0df/ramonda-inertia.png)
 
 ## Installation
 
