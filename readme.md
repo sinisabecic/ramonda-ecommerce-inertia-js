@@ -1,7 +1,5 @@
 # Ramonda Ecommerce + Inertia JS
 
-A demo application to illustrate how Inertia.js works.
-
 ![](https://i.ibb.co/bsXf0df/ramonda-inertia.png)
 
 ## Installation
@@ -9,8 +7,8 @@ A demo application to illustrate how Inertia.js works.
 Clone the repo locally:
 
 ```sh
-git clone https://github.com/inertiajs/pingcrm.git pingcrm
-cd pingcrm
+git clone https://github.com/sinisabecic/ramonda-ecommerce-inertia-js.git ramonda-ecommerce
+cd ramonda-ecommerce
 ```
 
 Install PHP dependencies:
