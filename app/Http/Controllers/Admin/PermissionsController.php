@@ -48,59 +48,38 @@ class PermissionsController extends Controller
         return Redirect::route('permissions')->with('success', 'Permission created.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
-     */
-    public function edit($id)
+    public function edit(Permission $permission)
     {
-        return view('admin.permissions.edit_permission', [
-            'permission' => Permission::findOrFail($id),
+        return Inertia::render('Permissions/Edit', [
+            'permission' => [
+                'id' => $permission->id,
+                'name' => $permission->name,
+                'guard_name' => $permission->guard_name,
+            ],
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Permission $permission)
     {
         $inputs = request()->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('permissions')->ignore($permission)],
-            'description' => ['required', 'string', Rule::unique('permissions')->ignore($permission)],
+            'name' => ['required', 'string', 'min:1', 'max:255', Rule::unique('permissions')->ignore($permission)],
         ]);
 
         $permission->update($inputs);
+        return Redirect::route('permissions')->with('success', 'Permission edited.');
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function destroy(Permission $permission)
     {
         $permission->delete();
-        return response()->json([
-            'message' => 'Permission deleted successfully!'
-        ]);
+        return Redirect::route('permissions')->with('success', 'Permission deleted.');
+//        return response()->json([
+//            'message' => 'Permission deleted successfully!'
+//        ]);
     }
 
     public function remove($id)

@@ -3,18 +3,18 @@
     <Head title="Categories" />
     <h1 class="mb-8 text-3xl font-bold">Categories</h1>
     <div class="flex items-center justify-between mb-6">
-      <search-filter v-model="form.search" class="mr-4 w-full max-w-md" @reset="reset">
-        <label class="block mt-4 text-gray-700">Trashed:</label>
-        <select v-model="form.trashed" class="form-select mt-1 w-full">
-          <option :value="null" />
-          <option value="with">With Trashed</option>
-          <option value="only">Only Trashed</option>
-        </select>
-      </search-filter>
-      <Link class="btn-indigo" href="/admin/categories/create">
-        <span>Create</span>
-        <span class="hidden md:inline">&nbsp;category</span>
-      </Link>
+      <search v-model="form.search" class="mr-4 w-full max-w-md" @reset="reset">
+      </search>
+      <div class="flex justify-end">
+        <Link class="btn-indigo" href="/admin/categories/create">
+          <span>Create</span>
+          <span class="hidden md:inline">&nbsp;category</span>
+        </Link>
+        <Link class="btn-indigo ml-1.5" href="/admin/categories">
+          <span>Refresh</span>
+          <span class="hidden md:inline">&nbsp;list</span>
+        </Link>
+      </div>
     </div>
     <div class="bg-white rounded-md shadow overflow-x-auto">
       <table class="w-full whitespace-nowrap">
@@ -62,14 +62,14 @@ import pickBy from 'lodash/pickBy'
 import Layout from '@/Shared/Layout'
 import throttle from 'lodash/throttle'
 import mapValues from 'lodash/mapValues'
-import SearchFilter from '@/Shared/SearchFilter'
+import Search from '@/Shared/Search'
 
 export default {
   components: {
     Head,
     Icon,
     Link,
-    SearchFilter,
+    Search,
   },
   layout: Layout,
   props: {

@@ -27,11 +27,10 @@
           <td class="border-t">
             <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/admin/permissions/${permission.id}/edit`">
               <h1 class="text-sm font-bold">{{ permission.name }}</h1>
-              <icon v-if="permission.deleted_at" name="trash" class="flex-shrink-0 ml-2 w-3 h-3 fill-red-400" />
             </Link>
           </td>
           <td class="border-t">
-            <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/admin/permission/${permission.id}/edit`">
+            <Link class="flex items-center px-6 py-4 text-indigo-800 focus:text-indigo-500" :href="`/admin/permissions/${permission.id}/edit`">
               <h1 class="text-sm font-semibold">{{ permission.guard_name }}</h1>
             </Link>
           </td>

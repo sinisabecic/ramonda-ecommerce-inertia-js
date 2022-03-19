@@ -27,7 +27,6 @@
           <td class="border-t">
             <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/admin/roles/${role.id}/edit`">
               <h1 class="text-sm font-bold">{{ role.name }}</h1>
-              <icon v-if="role.deleted_at" name="trash" class="flex-shrink-0 ml-2 w-3 h-3 fill-red-400" />
             </Link>
           </td>
           <td class="border-t">

@@ -89,48 +89,6 @@ class User extends Authenticatable
 //    }
 
 
-//    public function roles()
-//    {
-//        return $this->belongsToMany(
-//            Role::class,
-//            'role_user',
-//            'user_id',
-//            'role_id')
-//            ->withPivot('created_at');
-//    }
-
-//    public function role()
-//    {
-//        foreach (auth()->user()->roles as $role) {
-//            return $role;
-//        }
-//    }
-
-//    public function hasAnyRole($roles)
-//    {
-//        if (is_array($roles)) {
-//            foreach ($roles as $role) {
-//                if ($this->hasRole($role)) {
-//                    return true;
-//                }
-//            }
-//        } else {
-//            if ($this->hasRole($roles)) {
-//                return false;
-//            }
-//        }
-//        return false;
-//    }
-//
-//
-//    public function hasRole($role_name)
-//    {
-//        if ($this->roles->where('slug', $role_name)->first()) {
-//            return true;
-//        }
-//        return false;
-//    }
-
     public function getIsAdminAttribute(): bool
     {
         return $this->hasRole('Admin'); // or ->role('Admin')->exists(); print: 1/0

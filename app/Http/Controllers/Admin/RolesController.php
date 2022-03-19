@@ -49,25 +49,23 @@ class RolesController extends Controller
             'permissions' => ['required'],
         ]);
 
-        $role = Role::create(['name' => Request::get('name')]);
+        $role = Role::create(['name' => str_replace(' ', '', Request::get('name'))]);
         $role->syncPermissions(Request::input('permissions'));
 
         return Redirect::route('roles')->with('success', 'Role created.');
-
     }
 
 
-    public function show($id)
+    public function edit(Role $role)
     {
-        //
-    }
-
-
-    public function edit($id)
-    {
-        return view('admin.roles.edit_role', [
-            'role' => Role::findOrFail($id),
-            'permissions' => Permission::all()
+        return Inertia::render('Roles/Edit', [
+            'role' => [
+                'id' => $role->id,
+                'name' => $role->name,
+                'guard_name' => $role->guard_name,
+                'permissions' => $role->permissions,
+            ],
+            'all_permissions' => Permission::all(),
         ]);
     }
 
@@ -78,33 +76,16 @@ class RolesController extends Controller
             'name' => ['required', 'string', 'max:255'],
         ]);
 
-        $role->permissions()->sync(request()->input('permissions'));
         $role->update($inputs);
+        $role->syncPermissions(Request::input('permissions'));
+
+        return Redirect::route('roles')->with('success', 'Role edited.');
     }
 
 
     public function destroy(Role $role)
     {
         $role->delete();
-        return response()->json([
-            'message' => 'Data deleted successfully!'
-        ]);
-    }
-
-    public function remove($id)
-    {
-        Role::where('id', $id)->forceDelete();
-        return response()->json([
-            'message' => 'Role removed successfully!'
-        ]);
-    }
-
-    public function restore(Role $role, $id)
-    {
-        $role->whereId($id)->restore();
-
-        return response()->json([
-            'message' => 'Role restored successfully!'
-        ]);
+        return Redirect::route('roles')->with('success', 'Role deleted.');
     }
 }

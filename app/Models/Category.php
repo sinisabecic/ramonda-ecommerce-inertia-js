@@ -3,18 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class Category extends Model
 {
-    // new way for defining slug
-    use SoftDeletes, Sluggable;
+    use Sluggable, HasFactory, Notifiable;
 
     protected $table = 'category';
     protected $guarded = [];
-    protected $dates = ['deleted_at'];
+    protected $dates = ['created_at', 'updated_at'];
 
 
     public function products()
@@ -23,17 +23,7 @@ class Category extends Model
             ->withPivot('created_at');
     }
 
-//    public function setNameAttribute($value)
-//    {
-//        $this->attributes['name'] = $value;
-//        $this->attributes['slug'] = Str::slug($value);
-//    }
 
-    /**
-     * Return the sluggable configuration array for this model.
-     *
-     * @return array
-     */
     public function sluggable(): array
     {
         return [

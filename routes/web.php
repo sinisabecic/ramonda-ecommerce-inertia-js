@@ -12,6 +12,7 @@ use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\ReportsController;
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Models\Role;
 use UniSharp\LaravelFilemanager\Lfm;
 
 // Auth
@@ -292,14 +293,11 @@ Route::get('/img/{path}', [ImagesController::class, 'show'])
     ->where('path', '.*')
     ->name('image');
 
-
 Route::group(['prefix' => 'filemanager', 'middleware' => ['web']], function () {
     Lfm::routes();
 });
 
 // Testing
-Route::get('/admin/permissionss', function (){
-
-   return \Spatie\Permission\Models\Role::findById(1)->getAllPermissions();
+Route::get('/admin/test', function (){
 
 });
