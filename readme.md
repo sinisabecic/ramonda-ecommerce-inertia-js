@@ -1,16 +1,14 @@
-# Ping CRM
+# Ramonda Ecommerce + Inertia JS
 
-A demo application to illustrate how Inertia.js works.
-
-![](https://raw.githubusercontent.com/inertiajs/pingcrm/master/screenshot.png)
+![](https://i.ibb.co/bsXf0df/ramonda-inertia.png)
 
 ## Installation
 
 Clone the repo locally:
 
 ```sh
-git clone https://github.com/inertiajs/pingcrm.git pingcrm
-cd pingcrm
+git clone https://github.com/sinisabecic/ramonda-ecommerce-inertia-js.git ramonda-ecommerce
+cd ramonda-ecommerce
 ```
 
 Install PHP dependencies:
@@ -69,8 +67,8 @@ php artisan serve
 
 You're ready to go! Visit Ping CRM in your browser, and login with:
 
-- **Username:** johndoe@example.com
-- **Password:** secret
+- **Username:** sinisa.becic@outlook.com
+- **Password:** sinisa94
 
 ## Running tests
 
