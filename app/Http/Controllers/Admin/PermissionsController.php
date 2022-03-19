@@ -3,44 +3,49 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Permission;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
+use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Validation\Rule;
+use Spatie\Permission\Models\Role;
 
 class PermissionsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        return view('admin.permissions', ['permissions' => Permission::withTrashed()->get()]);
+        return Inertia::render('Permissions/Index', [
+            'filters' => Request::all('search'),
+
+            'permissions' => Permission::orderBy('name')
+                ->filter(Request::only('search'))
+                ->get()
+                ->transform(fn ($permission) => [
+                    'id' => $permission->id,
+                    'name' => $permission->name,
+                    'guard_name' => $permission->guard_name,
+                    'created_at' => $permission->created_at->diffForHumans(),
+                    'updated_at' => $permission->updated_at,
+                ]),
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+        return Inertia::render('Permissions/Create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+    public function store()
     {
-        Permission::create([
-            'name' => $request->permission,
-            'description' => $request->description,
+        Request::validate([
+            'name' => ['required', 'max:50', Rule::unique('permissions')],
         ]);
+
+        Permission::create(['name' => strtolower(str_replace(' ', '_', Request::get('name')))]);
+        return Redirect::route('permissions')->with('success', 'Permission created.');
     }
 
     /**

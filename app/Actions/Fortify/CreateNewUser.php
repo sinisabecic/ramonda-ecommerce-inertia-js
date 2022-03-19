@@ -18,6 +18,8 @@ class CreateNewUser implements CreatesNewUsers
      * @param  array  $input
      * @return \App\Models\User
      */
+
+    // Validation request
     public function create(array $input)
     {
         Validator::make($input, [
@@ -49,8 +51,10 @@ class CreateNewUser implements CreatesNewUsers
             'last_name' => $input['last_name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
-            'country_id' => 148,
+            'country_id' => 1,
             'account_id' => 1,
-        ]);
+        ])
+        ->assignRole('User')
+        ->photo()->create(['url' => 'default.png']);
     }
 }

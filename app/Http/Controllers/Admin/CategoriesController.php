@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Category;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Category;
+use Illuminate\Support\Facades\Request;
+use Inertia\Inertia;
 use League\Flysystem\Exception;
 use Throwable;
 use Illuminate\Support\Str;
@@ -13,7 +14,20 @@ class CategoriesController extends Controller
 {
     public function index()
     {
-        return view('admin.categories')->with(['categories' => Category::withTrashed()->get()]);
+        return Inertia::render('Categories/Index', [
+            'filters' => Request::all('search', 'trashed'),
+            'categories' => Category::withTrashed()
+                ->orderByDesc('created_at')
+                ->filter(Request::only('search', 'trashed'))
+                ->get()
+                ->transform(fn ($category) => [
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'slug' => $category->slug,
+                    'created_at' => $category->created_at->diffForHumans(),
+                    'deleted_at' => $category->deleted_at,
+                ]),
+        ]);
     }
 
     public function create()

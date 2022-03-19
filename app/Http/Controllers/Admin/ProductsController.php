@@ -107,6 +107,10 @@ class ProductsController extends Controller
 
     public function edit(Product $product)
     {
+        $other_categories = Category::where('id', '!=', $this->productCategoryId($product))
+            ->orderBy('name')
+            ->get();
+
         return Inertia::render('Products/Edit', [
             'product' => [
                 'id' => $product->id,
@@ -119,10 +123,26 @@ class ProductsController extends Controller
                 'deleted_at' => $product->deleted_at,
                 'image' => $product->productImage(),
                 'images' => $product->images,
-                'categories' => $product->categories,
+                'category_id' => $this->productCategoryId($product),
+                'category_name' => $this->productCategoryName($product),
             ],
-            'categories' => Category::orderBy('name')->get()
+            'other_categories' => $other_categories,
         ]);
+    }
+
+
+    public function productCategoryName($model)
+    {
+        foreach ($model->categories as $category){
+            return $category->name;
+        }
+    }
+
+    public function productCategoryId($model)
+    {
+        foreach ($model->categories as $category){
+            return $category->pivot->category_id;
+        }
     }
 
 
@@ -137,7 +157,7 @@ class ProductsController extends Controller
             'image' => 'image|mimes:jpeg,png,jpg,gif,jfif,svg|max:2048|nullable',
             'images' => '',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,jfif,svg|max:2048|nullable',
-            'featured' => ['required'],
+            'featured' => ['required', 'boolean'],
             'quantity' => 'required|numeric|min:1',
         ]);
 
@@ -170,7 +190,9 @@ class ProductsController extends Controller
             $product->quantity = $inputs['quantity'],
         ]);
 
-        $product->categories()->sync(request()->categories);
+        request()->validate(['category_id' => 'required']);
+
+        $product->categories()->sync(request()->input('category_id'));
         return Redirect::route('products')->with('success', 'Product edited.');
     }
 

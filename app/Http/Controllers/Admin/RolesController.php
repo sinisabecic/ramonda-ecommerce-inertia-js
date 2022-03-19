@@ -3,35 +3,57 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Permission;
-use App\Role;
-use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Validation\Rule;
+use Inertia\Inertia;
 
 class RolesController extends Controller
 {
 
     public function index()
     {
-        return view('admin.roles')->with([
-            'roles' => Role::withTrashed()->get(),
-            'permissions' => Permission::all()
+        return Inertia::render('Roles/Index', [
+            'filters' => Request::all('search'),
+
+            'roles' => Role::orderBy('name')
+                ->filter(Request::only('search'))
+                ->get()
+                ->transform(fn ($role) => [
+                    'id' => $role->id,
+                    'name' => $role->name,
+                    'guard_name' => $role->guard_name,
+                    'created_at' => $role->created_at->diffForHumans(),
+                    'updated_at' => $role->updated_at,
+                    'permissions' => $role->getAllPermissions(),
+                ]),
         ]);
     }
 
     public function create()
     {
-        //
+        return Inertia::render('Roles/Create', [
+            'permissions' => Permission::all(),
+        ]);
     }
 
 
-    public function store(Request $request)
+    public function store()
     {
-        $role = Role::create([
-            'name' => $request->role,
+        Request::validate([
+            'name' => ['required', 'max:50', Rule::unique('roles')],
+            'permissions' => ['required'],
         ]);
 
-        $role->permissions()->attach($request->permissions);
+        $role = Role::create(['name' => Request::get('name')]);
+        $role->syncPermissions(Request::input('permissions'));
+
+        return Redirect::route('roles')->with('success', 'Role created.');
+
     }
 
 

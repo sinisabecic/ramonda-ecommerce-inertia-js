@@ -4,9 +4,10 @@
     <div class="md:flex md:flex-col">
       <div class="md:flex md:flex-col md:h-screen">
         <div class="md:flex md:flex-shrink-0">
-          <div class="flex items-center justify-between px-6 py-4 bg-indigo-900 md:flex-shrink-0 md:justify-center md:w-56">
-            <Link class="mt-1" href="/">
-              <logo class="fill-white" width="120" height="28" />
+          <div class="flex items-center justify-between px-6 py-4 md:flex-shrink-0 md:justify-center md:w-56" style="background: #343a40!important">
+            <Link class="mt-1" href="/admin">
+<!--              <logo class="fill-white" width="120" height="28" />-->
+              <h1 class="text-lg text-white"><span class="font-bold">Ramonda </span>CRM</h1>
             </Link>
             <dropdown class="md:hidden" placement="bottom-end">
               <template #default>
@@ -42,7 +43,7 @@
           </div>
         </div>
         <div class="md:flex md:flex-grow md:overflow-hidden">
-          <main-menu class="hidden flex-shrink-0 p-12 w-56 bg-indigo-800 overflow-y-auto md:block" />
+          <main-menu class="hidden flex-shrink-0 p-12 w-56 bg-indigo-800 overflow-y-auto md:block" style="background: #101820!important"/>
           <div class="px-4 py-8 md:flex-1 md:p-12 md:overflow-y-auto" scroll-region>
             <flash-messages />
             <slot />

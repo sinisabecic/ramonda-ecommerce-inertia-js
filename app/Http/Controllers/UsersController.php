@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rule;
 
 class UsersController extends Controller
 {
@@ -21,7 +23,7 @@ class UsersController extends Controller
 
     public function update(Request $request)
     {
-        $request->validate([
+        $inputs = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'username' => 'required|string|max:255',
@@ -31,19 +33,27 @@ class UsersController extends Controller
         ]);
 
         $user = auth()->user();
-        $input = $request->except('password', 'password_confirmation');
 
-        // If password not inputed in field, update user
-        if (! $request->filled('password')) {
-            $user->fill($input)->save();
+        if (!$request->get('password') && !$request->get('password_confirmation') ) {
 
-            return back()->with('success_message', 'Profile updated successfully!');
+            $user->update($inputs);
+            return Redirect::back()->with('success_message', 'Profile updated successfully!');
         }
 
-        $user->password = Hash::make($request->password);
-        $user->fill($input)->save();
+//        $input = $request->except('password', 'password_confirmation'); ne radi
+        // If password not inputed in field, update user
+//        if (! $request->filled('password')) {
+////            $user->fill($input)->save(); ne radi
+//
+//            return Redirect::back()->with('success_message', 'Profile updated successfully!');
+//        }
 
-        return back()->with('success_message', 'Profile (and password) updated successfully!');
+//        $user->password = Hash::make($request->password);
+        $user->update(['password' => Hash::make(Request::get('password'))]);
+        $user->update($inputs);
+//        $user->fill($input)->save();
+
+        return Redirect::back()->with('success_message', 'Profile (and password) updated successfully!');
     }
 
     /**

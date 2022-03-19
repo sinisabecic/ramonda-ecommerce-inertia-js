@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Country;
 use App\Models\User;
+//use App\Models\Role;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
@@ -34,8 +37,7 @@ class UsersController extends Controller
                     'name' => $user->name,
                     'username' => $user->username,
                     'email' => $user->email,
-                    'owner' => $user->owner,
-//                    'photo' => $user->photo_path ? URL::route('image', ['path' => $user->photo_path, 'w' => 40, 'h' => 40, 'fit' => 'crop']) : null,
+                    'role_name' => $this->userRoleName($user),
                     'avatarPath' => env('AVATAR'),
                     'photo' => $user->photos,
                     'deleted_at' => $user->deleted_at,
@@ -46,7 +48,8 @@ class UsersController extends Controller
     public function create()
     {
         return Inertia::render('Users/Create', [
-            'countries' => Country::all()
+            'countries' => Country::all(),
+            'roles' => Role::all(),
         ]);
     }
 
@@ -58,7 +61,6 @@ class UsersController extends Controller
             'username' => ['required', 'max:50', Rule::unique('users')],
             'email' => ['required', 'max:50', 'email', Rule::unique('users')],
             'password' => ['nullable'],
-            'owner' => ['required', 'boolean'],
             'country_id' => ['required'],
             'photo' => ['required', 'image'],
         ]);
@@ -69,7 +71,6 @@ class UsersController extends Controller
             'username' => Request::get('username'),
             'email' => Request::get('email'),
             'password' => Hash::make(Request::get('password')),
-            'owner' => Request::get('owner'),
             'country_id' => Request::get('country_id'),
             'account_id' => 1,
 //            'photo_path' => Request::file('photo') ? Request::file('photo')->store('users') : null,
@@ -80,7 +81,7 @@ class UsersController extends Controller
             Storage::putFileAs('files/1/Avatars', request()->file('photo'), $user->id . '/' . $photo);
             $user->photo()->create(['url' => $photo]);
         } else {
-            $user->photo()->create(['url' => 'user.jpg']);
+            $user->photo()->create(['url' => 'default.png']);
         }
 
         return Redirect::route('users')->with('success', 'User created.');
@@ -88,21 +89,42 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
+
+        $other_roles = Role::where('id', '!=', $this->userRoleId($user))->get();
+        $other_countries = Country::where('id', '!=', $user->country_id)->get();
+
         return Inertia::render('Users/Edit', [
             'user' => [
                 'id' => $user->id,
                 'first_name' => $user->first_name,
+                'username' => $user->username,
                 'last_name' => $user->last_name,
                 'email' => $user->email,
-                'owner' => $user->owner,
-//                'photo' => $user->photos,
+                'deleted_at' => $user->deleted_at,
+                'country' => $user->country, // for name of country
+                'country_id' => $user->country_id,
                 'avatarPath' => env('AVATAR'),
                 'photo' => $user->photos,
-                'deleted_at' => $user->deleted_at,
-                'country' => $user->country
+                'role_name' => $this->userRoleName($user),
+                'role_id' => $this->userRoleId($user),
             ],
-            'countries' => Country::all(),
+            'other_roles' => $other_roles,
+            'countries' => $other_countries,
         ]);
+    }
+
+    public function userRoleName($model)
+    {
+        foreach ($model->roles as $role){
+            return $role->name;
+        }
+    }
+
+    public function userRoleId($model)
+    {
+        foreach ($model->roles as $role){
+            return $role->pivot->role_id;
+        }
     }
 
     public function update(User $user)
@@ -110,10 +132,9 @@ class UsersController extends Controller
         $inputs = request()->validate([
             'first_name' => ['required', 'max:50'],
             'last_name' => ['required', 'max:50'],
+            'username' => ['required', 'string', 'max:50', Rule::unique('users')->ignore($user)],
             'email' => ['required', 'string', 'max:50', Rule::unique('users')->ignore($user)],
-            'country_id' => ['required'],
-            'password' => ['nullable'],
-            'owner' => ['required', 'boolean'],
+            'country_id' => ['nullable'],
         ]);
 
 //        $user->update(Request::only('first_name', 'username', 'last_name', 'email', 'owner', 'country'));
@@ -127,10 +148,15 @@ class UsersController extends Controller
 
         $user->update($inputs);
 
+        request()->validate([
+            'role_name' => ['required', 'string'],
+        ]);
+        $user->assignRole(request()->input('role_name'));
+
+
         if (Request::get('password')) {
             $user->update(['password' => Hash::make(Request::get('password'))]);
         }
-
 
         return Redirect::back()->with('success', 'User updated.');
     }

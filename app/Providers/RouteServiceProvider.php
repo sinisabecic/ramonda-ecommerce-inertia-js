@@ -57,51 +57,51 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
 
 
-            Route::prefix('admin')
-                ->middleware(['web', 'auth', 'role:admin'])
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web/roles.php'));
+//            Route::prefix('admin')
+//                ->middleware(['web', 'auth', 'role:admin'])
+//                ->namespace($this->namespace)
+//                ->group(base_path('routes/web/roles.php'));
 
 
-            Route::prefix('admin')
-                ->middleware(['web', 'auth', 'role:admin'])
-                ->namespace($this->admin)
-                ->group(base_path('routes/web/permissions.php'));
-
-
-            Route::prefix('admin')
-                ->middleware(['web'])
-                ->namespace($this->admin)
-                ->group(base_path('routes/web/tags.php'));
-
-
-            Route::prefix('admin')
-                ->middleware('web')
-                ->namespace($this->admin)
-                ->group(base_path('routes/web/comments.php'));
-
-
-            Route::prefix('admin')
-                ->middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web/categories.php'));
-
-
-            Route::prefix('admin')
-                ->middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web/orders.php'));
-
-
-            Route::prefix('admin')
-                ->middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web/orders.php'));
-
-            Route::prefix('admin')
-                ->middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web/coupons.php'));
+//            Route::prefix('admin')
+//                ->middleware(['web', 'auth', 'role:admin'])
+//                ->namespace($this->admin)
+//                ->group(base_path('routes/web/permissions.php'));
+//
+//
+//            Route::prefix('admin')
+//                ->middleware(['web'])
+//                ->namespace($this->admin)
+//                ->group(base_path('routes/web/tags.php'));
+//
+//
+//            Route::prefix('admin')
+//                ->middleware('web')
+//                ->namespace($this->admin)
+//                ->group(base_path('routes/web/comments.php'));
+//
+//
+//            Route::prefix('admin')
+//                ->middleware('web')
+//                ->namespace($this->namespace)
+//                ->group(base_path('routes/web/categories.php'));
+//
+//
+//            Route::prefix('admin')
+//                ->middleware('web')
+//                ->namespace($this->namespace)
+//                ->group(base_path('routes/web/orders.php'));
+//
+//
+//            Route::prefix('admin')
+//                ->middleware('web')
+//                ->namespace($this->namespace)
+//                ->group(base_path('routes/web/orders.php'));
+//
+//            Route::prefix('admin')
+//                ->middleware('web')
+//                ->namespace($this->namespace)
+//                ->group(base_path('routes/web/coupons.php'));
         });
     }
 

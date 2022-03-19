@@ -18,11 +18,12 @@
         "inertiajs/inertia-laravel": "^0.5.3",
         "laravel/fortify": "^1.11",
         "laravel/framework": "^8.65",
-        "laravel/scout": "^9.4",
         "laravel/sanctum": "^2.11",
+        "laravel/scout": "^9.4",
         "laravel/tinker": "^2.5",
         "league/glide-laravel": "^1.0",
         "nicolaslopezj/searchable": "^1.13",
+        "spatie/laravel-permission": "^5.5",
         "unisharp/laravel-filemanager": "^2.4"
     },
     "require-dev": {

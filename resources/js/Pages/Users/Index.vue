@@ -4,12 +4,6 @@
     <h1 class="mb-8 text-3xl font-bold">Users</h1>
     <div class="flex items-center justify-between mb-6">
       <search-filter v-model="form.search" class="mr-4 w-full max-w-md" @reset="reset">
-        <label class="block text-gray-700">Role:</label>
-        <select v-model="form.role" class="form-select mt-1 w-full">
-          <option :value="null" />
-          <option value="user">User</option>
-          <option value="owner">Owner</option>
-        </select>
         <label class="block mt-4 text-gray-700">Trashed:</label>
         <select v-model="form.trashed" class="form-select mt-1 w-full">
           <option :value="null" />
@@ -23,10 +17,16 @@
           <option value="0">Not active</option>
         </select>
       </search-filter>
-      <Link class="btn-indigo" href="/admin/users/create">
-        <span>Create</span>
-        <span class="hidden md:inline">&nbsp;User</span>
-      </Link>
+      <div class="flex justify-end">
+        <Link class="btn-indigo" href="/admin/roles">
+          <span>User</span>
+          <span class="hidden md:inline">&nbsp;Roles</span>
+        </Link>
+        <Link class="btn-indigo ml-1.5" href="/admin/users/create">
+          <span>Create</span>
+          <span class="hidden md:inline">&nbsp;User</span>
+        </Link>
+      </div>
     </div>
     <div class="bg-white rounded-md shadow overflow-x-auto">
       <table class="w-full whitespace-nowrap">
@@ -56,7 +56,7 @@
           </td>
           <td class="border-t">
             <Link class="flex items-center px-6 py-4" :href="`/admin/users/${user.id}/edit`" tabindex="-1">
-              {{ user.owner ? 'Owner' : 'User' }}
+              {{ user.role_name }}
             </Link>
           </td>
           <td class="w-px border-t">
@@ -98,7 +98,7 @@ export default {
     return {
       form: {
         search: this.filters.search,
-        role: this.filters.role,
+        role_name: this.filters.role_name,
         trashed: this.filters.trashed,
         is_active: this.filters.is_active,
       },

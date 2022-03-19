@@ -3,8 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
@@ -15,6 +19,7 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
     use SoftDeletes;
+    use HasRoles;
 
     protected $table = 'users';
     protected $guarded = [];
@@ -83,53 +88,52 @@ class User extends Authenticatable
 //        $this->attributes['password'] = Hash::needsRehash($password) ? Hash::make($password) : $password;
 //    }
 
-    public function isDemoUser()
-    {
-        return $this->email === 'johndoe@example.com';
-    }
 
-    public function roles()
-    {
-        return $this->belongsToMany(
-            Role::class,
-            'role_user', 'user_id', 'role_id')->withPivot('created_at');
-    }
+//    public function roles()
+//    {
+//        return $this->belongsToMany(
+//            Role::class,
+//            'role_user',
+//            'user_id',
+//            'role_id')
+//            ->withPivot('created_at');
+//    }
 
-    public function role()
-    {
-        foreach (auth()->user()->roles as $role) {
-            return $role;
-        }
-    }
+//    public function role()
+//    {
+//        foreach (auth()->user()->roles as $role) {
+//            return $role;
+//        }
+//    }
 
-    public function hasAnyRole($roles)
-    {
-        if (is_array($roles)) {
-            foreach ($roles as $role) {
-                if ($this->hasRole($role)) {
-                    return true;
-                }
-            }
-        } else {
-            if ($this->hasRole($roles)) {
-                return false;
-            }
-        }
-        return false;
-    }
-
-
-    public function hasRole($role_name)
-    {
-        if ($this->roles->where('slug', $role_name)->first()) {
-            return true;
-        }
-        return false;
-    }
+//    public function hasAnyRole($roles)
+//    {
+//        if (is_array($roles)) {
+//            foreach ($roles as $role) {
+//                if ($this->hasRole($role)) {
+//                    return true;
+//                }
+//            }
+//        } else {
+//            if ($this->hasRole($roles)) {
+//                return false;
+//            }
+//        }
+//        return false;
+//    }
+//
+//
+//    public function hasRole($role_name)
+//    {
+//        if ($this->roles->where('slug', $role_name)->first()) {
+//            return true;
+//        }
+//        return false;
+//    }
 
     public function getIsAdminAttribute(): bool
     {
-        return $this->roles()->where('role_id', 1)->exists();
+        return $this->hasRole('Admin'); // or ->role('Admin')->exists(); print: 1/0
     }
 
     public function scopeOrderByName($query)

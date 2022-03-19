@@ -13,9 +13,8 @@
           <text-input v-model="form.email" :error="form.errors.email" class="pb-8 pr-6 w-full lg:w-1/2" label="Email" />
           <text-input v-model="form.password" :error="form.errors.password" class="pb-8 pr-6 w-full lg:w-1/2" type="password" autocomplete="new-password" label="Password" />
           <text-input v-model="form.username" :error="form.errors.username" class="pb-8 pr-6 w-full lg:w-1/2" label="Username" />
-          <select-input v-model="form.owner" :error="form.errors.owner" class="pb-8 pr-6 w-full lg:w-1/2" label="Owner">
-            <option :value="true">Yes</option>
-            <option :value="false">No</option>
+          <select-input v-model="form.role_name" :error="form.errors.role_name" class="pb-8 pr-6 w-full lg:w-1/2" label="Role">
+            <option v-for="role in roles" :key="role.id" :value="role.name">{{ role.name }}</option>
           </select-input>
           <select-input v-model="form.country_id" :error="form.errors.country_id" class="pb-8 pr-6 w-full lg:w-1/2" label="Country">
             <option v-for="country in countries" :key="country.id" :value="country.id">{{ country.name }}</option>
@@ -57,9 +56,9 @@ export default {
         username: '',
         email: '',
         password: '',
-        owner: false,
         photo: null,
-        country_id: ''
+        country_id: '',
+        role_name: 'User',
       }),
     }
   },
@@ -70,7 +69,8 @@ export default {
   },
 
   props: {
-    countries: Array
+    countries: Array,
+    roles: Array
   }
 }
 </script>

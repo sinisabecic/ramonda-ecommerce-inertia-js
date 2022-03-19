@@ -14,19 +14,18 @@
       <form @submit.prevent="update">
         <div class="flex flex-wrap -mb-8 -mr-6 p-8">
           <text-input v-model="form.name" :error="form.errors.name" class="pb-8 pr-6 w-full lg:w-1/2" label="Product name" />
-          <!--          <text-input v-model="form.slug" :error="form.errors.slug" class="pb-8 pr-6 w-full lg:w-1/2" label="Slug" />-->
           <text-input v-model="form.details" :error="form.errors.details" class="pb-8 pr-6 w-full lg:w-1/2" label="Details" />
           <text-input v-model="form.price" :error="form.errors.price" class="pb-8 pr-6 w-full lg:w-1/2" label="Price" />
           <text-input v-model="form.quantity" :error="form.errors.quantity" class="pb-8 pr-6 w-full lg:w-1/2" type="number" label="Quantity" />
           <editor v-model="form.description" :error="form.errors.description" class="pb-8 pr-6 w-full lg:w-1/2" label="Description">{{product.description}}</editor>
           <select-input v-model="form.featured" :error="form.errors.featured" class="pt-8 pb-8 pr-6 w-full lg:w-1/2" label="Featured">
-            <option :value="true">Yes</option>
-            <option :value="false">No</option>
+            <option :value="1">Yes</option>
+            <option :value="0">No</option>
           </select-input>
-          <select-input v-model="form.categories" :error="form.errors.categories" class="pt-8 pb-8 pr-6 w-full lg:w-1/2" label="Category">
-            <option v-for="category in product.categories" :key="category.id" :value="category.id" selected>{{ category.name }}</option>
-            <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
-          </select-input>
+          <multiple-select-input v-model="form.category_id" :error="form.errors.category_id" class="pt-8 pb-8 pr-6 w-full lg:w-1/2" label="Category">
+            <option :value="product.category_id">{{ product.category_name }}</option>
+            <option v-for="cat in other_categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+          </multiple-select-input>
           <file-input v-model="form.image" :error="form.errors.image" class="pb-8 pr-6 w-full lg:w-1/2" type="file" accept="image/*" label="Image" />
           <multiple-file-input v-model="form.images" :error="form.errors.images" class="pb-8 pr-6 w-full lg:w-1/2" type="file" accept="image/*" label="Multiple Images" />
         </div>
@@ -46,6 +45,7 @@ import Layout from '@/Shared/Layout'
 import TextInput from '@/Shared/TextInput'
 import FileInput from '@/Shared/FileInput'
 import SelectInput from '@/Shared/SelectInput'
+import MultipleSelectInput from '@/Shared/MultipleSelectInput'
 import LoadingButton from '@/Shared/LoadingButton'
 import TrashedMessage from '@/Shared/TrashedMessage'
 import Editor from '@/Shared/Editor'
@@ -59,6 +59,7 @@ export default {
     Link,
     LoadingButton,
     SelectInput,
+    MultipleSelectInput,
     TextInput,
     Editor,
     TrashedMessage,
@@ -66,7 +67,7 @@ export default {
   layout: Layout,
   props: {
     product: Object,
-    categories: Array,
+    other_categories: Array,
   },
   remember: 'form',
   data() {
@@ -79,7 +80,8 @@ export default {
         price: this.product.price,
         quantity: this.product.quantity,
         featured: this.product.featured,
-        categories: this.product.categories,
+        category_name: this.product.category_name,
+        category_id: this.product.category_id,
         image: null,
         images: null,
       }),
