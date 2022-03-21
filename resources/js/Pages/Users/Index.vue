@@ -18,7 +18,11 @@
         </select>
       </search-filter>
       <div class="flex justify-end">
-        <Link class="btn-indigo" href="/admin/roles">
+        <Link class="btn-indigo" href="/admin/users">
+          <span>Refresh</span>
+          <span class="hidden md:inline">&nbsp;list</span>
+        </Link>
+        <Link class="btn-indigo ml-1.5" href="/admin/roles">
           <span>User</span>
           <span class="hidden md:inline">&nbsp;Roles</span>
         </Link>
