@@ -1,6 +1,6 @@
 # Ramonda Ecommerce + Inertia JS
 
-![](https://i.ibb.co/wSmfqpQ/presentation.png)
+![](https://s1.gifyu.com/images/ezgif.com-gif-makeraf5064b503b7e4b6.gif)
 
 ## Installation
 
@@ -20,7 +20,7 @@ composer install
 Install NPM dependencies:
 
 ```sh
-npm ci
+npm install
 ```
 
 Build assets:
