@@ -1,6 +1,6 @@
 # Ramonda Ecommerce + Inertia JS
 
-![](https://i.ibb.co/bsXf0df/ramonda-inertia.png)
+![](https://i.ibb.co/wSmfqpQ/presentation.png)
 
 ## Installation
 
