@@ -23,8 +23,15 @@
             <option :value="0">No</option>
           </select-input>
 
+          <select-input v-model="form.category_id" :error="form.errors.category_id" class="pt-8 pb-8 pr-6 w-full lg:w-1/2" label="Select category">
+<!--            <option :value="form.category_id">{{ form.category_name }}</option>-->
+            <option :value="product.category_id">{{ product.category_name }}</option>
+            <option v-for="c in other_categories" :key="c.id" :value="c.id">{{ c.name }}</option>
+          </select-input>
 
-          <multiselect v-model="form.category_id" :options="all_categories" :error="form.errors.categories" class="pt-8 pb-8 pr-6 w-full lg:w-1/2" label="Select category(s)" />
+
+<!--          <multiselect v-model="form.categories" :options="all_categories" :error="form.errors.categories" class="pt-8 pb-8 pr-6 w-full lg:w-1/2"-->
+<!--                       label="Select category(s)" />-->
 
 
           <file-input v-model="form.image" :error="form.errors.image" class="pb-8 pr-6 w-full lg:w-1/2" type="file" accept="image/*" label="Image" />
@@ -68,7 +75,6 @@ export default {
   layout: Layout,
   props: {
     product: Object,
-    // categories: Array,
     other_categories: Array,
     all_categories: Array,
   },
@@ -83,8 +89,8 @@ export default {
         price: this.product.price,
         quantity: this.product.quantity,
         featured: this.product.featured,
-        categories: this.product.categories,
-        category_name: this.product.category_name,
+        // categories: this.product.categories,
+        // category_name: this.product.category_name,
         category_id: this.product.category_id,
         image: null,
         images: null,
