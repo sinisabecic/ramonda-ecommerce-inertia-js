@@ -23,8 +23,8 @@ class ProductsController extends Controller
     {
         return Inertia::render('Products/Index', [
             'filters' => Request::all('search', 'trashed', 'featured'),
-            'products' => Product::withTrashed()
-                ->orderByDesc('created_at')
+            'products' => Product::orderBy('name')
+                ->withTrashed()
                 ->filter(Request::only('search', 'trashed', 'featured'))
                 ->get()
                 ->transform(fn ($product) => [
@@ -124,10 +124,10 @@ class ProductsController extends Controller
                 'image' => $product->productImage(),
                 'images' => $product->images,
                 'category_id' => $this->productCategoryId($product),
-//                'category_name' => $this->productCategoryName($product),
-                'categories' => $product->categories->pluck('name')->toArray(),
+                'category_name' => $this->productCategoryName($product),
+                'categories' => $product->categories,
             ],
-            'other_categories' => $other_categories->pluck('name')->toArray(),
+            'other_categories' => $other_categories,
             'all_categories' => Category::pluck('id')->toArray(),
         ]);
     }
