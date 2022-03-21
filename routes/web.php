@@ -19,7 +19,7 @@ use UniSharp\LaravelFilemanager\Lfm;
 
 Route::get('/admin/login', [AuthenticatedSessionController::class, 'create'])
     ->name('login')
-    ->middleware('guest');
+    ->middleware('admin');
 
 Route::post('/admin/login', [AuthenticatedSessionController::class, 'store'])
     ->name('login.store')
