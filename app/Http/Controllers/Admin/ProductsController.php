@@ -124,9 +124,11 @@ class ProductsController extends Controller
                 'image' => $product->productImage(),
                 'images' => $product->images,
                 'category_id' => $this->productCategoryId($product),
-                'category_name' => $this->productCategoryName($product),
+//                'category_name' => $this->productCategoryName($product),
+                'categories' => $product->categories->pluck('name')->toArray(),
             ],
-            'other_categories' => $other_categories,
+            'other_categories' => $other_categories->pluck('name')->toArray(),
+            'all_categories' => Category::pluck('id')->toArray(),
         ]);
     }
 
@@ -191,8 +193,8 @@ class ProductsController extends Controller
         ]);
 
         request()->validate(['category_id' => 'required']);
+        $product->categories()->sync(Request::input('category_id'));
 
-        $product->categories()->sync(request()->input('category_id'));
         return Redirect::route('products')->with('success', 'Product edited.');
     }
 

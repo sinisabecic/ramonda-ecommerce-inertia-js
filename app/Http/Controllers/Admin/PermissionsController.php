@@ -98,4 +98,9 @@ class PermissionsController extends Controller
             'message' => 'Permission restored successfully!'
         ]);
     }
+
+    public function get()
+    {
+        return response()->json(Permission::all());
+    }
 }

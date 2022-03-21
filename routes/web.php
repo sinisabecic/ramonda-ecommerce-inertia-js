@@ -301,3 +301,5 @@ Route::group(['prefix' => 'filemanager', 'middleware' => ['web']], function () {
 Route::get('/admin/test', function (){
 
 });
+
+Route::get('/admin/permissions/get', [PermissionsController::class, 'get']);

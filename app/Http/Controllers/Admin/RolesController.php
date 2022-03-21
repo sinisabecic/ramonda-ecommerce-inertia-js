@@ -37,7 +37,7 @@ class RolesController extends Controller
     public function create()
     {
         return Inertia::render('Roles/Create', [
-            'permissions' => Permission::all(),
+            'permissions' => Permission::pluck('name')->toArray(),
         ]);
     }
 
@@ -63,9 +63,9 @@ class RolesController extends Controller
                 'id' => $role->id,
                 'name' => $role->name,
                 'guard_name' => $role->guard_name,
-                'permissions' => $role->permissions,
+                'permissions' => $role->permissions->pluck('name'),
             ],
-            'all_permissions' => Permission::all(),
+            'all_permissions' => Permission::pluck('name')->toArray(),
         ]);
     }
 

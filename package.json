@@ -21,6 +21,7 @@
         "@inertiajs/progress": "^0.2.7",
         "@inertiajs/server": "^0.1.0",
         "@popperjs/core": "^2.11.0",
+        "@suadelabs/vue3-multiselect": "^1.0.2",
         "@syncfusion/ej2-vue-dropdowns": "^19.4.56",
         "@tinymce/tinymce-vue": "^4.0.7",
         "@vue/server-renderer": "^3.2.27",
@@ -42,6 +43,7 @@
         "vue": "^3.2.27",
         "vue-loader": "^16.2.0",
         "vue-multiselect": "^2.1.6",
+        "vue-select": "^4.0.0-beta.3",
         "webpack-node-externals": "^3.0.0"
     }
 }

@@ -22,10 +22,11 @@
             <option :value="1">Yes</option>
             <option :value="0">No</option>
           </select-input>
-          <multiple-select-input v-model="form.category_id" :error="form.errors.category_id" class="pt-8 pb-8 pr-6 w-full lg:w-1/2" label="Category">
-            <option :value="product.category_id">{{ product.category_name }}</option>
-            <option v-for="cat in other_categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
-          </multiple-select-input>
+
+
+          <multiselect v-model="form.category_id" :options="all_categories" :error="form.errors.categories" class="pt-8 pb-8 pr-6 w-full lg:w-1/2" label="Select category(s)" />
+
+
           <file-input v-model="form.image" :error="form.errors.image" class="pb-8 pr-6 w-full lg:w-1/2" type="file" accept="image/*" label="Image" />
           <multiple-file-input v-model="form.images" :error="form.errors.images" class="pb-8 pr-6 w-full lg:w-1/2" type="file" accept="image/*" label="Multiple Images" />
         </div>
@@ -45,7 +46,7 @@ import Layout from '@/Shared/Layout'
 import TextInput from '@/Shared/TextInput'
 import FileInput from '@/Shared/FileInput'
 import SelectInput from '@/Shared/SelectInput'
-import MultipleSelectInput from '@/Shared/MultipleSelectInput'
+import Multiselect from '@/Shared/Multiselect'
 import LoadingButton from '@/Shared/LoadingButton'
 import TrashedMessage from '@/Shared/TrashedMessage'
 import Editor from '@/Shared/Editor'
@@ -59,7 +60,7 @@ export default {
     Link,
     LoadingButton,
     SelectInput,
-    MultipleSelectInput,
+    Multiselect,
     TextInput,
     Editor,
     TrashedMessage,
@@ -67,7 +68,9 @@ export default {
   layout: Layout,
   props: {
     product: Object,
+    // categories: Array,
     other_categories: Array,
+    all_categories: Array,
   },
   remember: 'form',
   data() {
@@ -80,11 +83,14 @@ export default {
         price: this.product.price,
         quantity: this.product.quantity,
         featured: this.product.featured,
+        categories: this.product.categories,
         category_name: this.product.category_name,
         category_id: this.product.category_id,
         image: null,
         images: null,
       }),
+
+
     }
   },
   methods: {

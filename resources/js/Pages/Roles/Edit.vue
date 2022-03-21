@@ -12,10 +12,7 @@
       <form @submit.prevent="update">
         <div class="flex flex-wrap -mb-8 -mr-6 p-8">
           <text-input v-model="form.name" :error="form.errors.name" class="pb-8 pr-6 w-full lg:w-1/2" label="Role name" />
-          <multiple-select-input v-model="form.permissions" :error="form.errors.permissions" class="pb-8 pr-6 w-full lg:w-1/2" label="Select Permissions (Ctrl hold)" multiple>
-            <option v-for="permission in role.permissions" :key="permission.id" :value="permission.name" selected>{{ permission.name }}</option>
-            <option v-for="p in all_permissions" :key="p.id" :value="p.name">{{ p.name }}</option>
-          </multiple-select-input>
+          <multiselect v-model="form.permissions" :options="all_permissions" :error="form.errors.name" class="pb-8 pr-6 w-full lg:w-1/2" label="Select permission(s)" />
         </div>
         <div class="flex items-center px-8 py-4 bg-gray-50 border-t border-gray-100">
           <button class="text-red-600 hover:underline" tabindex="-1" type="button" @click="destroy">Delete role</button>
@@ -32,11 +29,11 @@ import Layout from '@/Shared/Layout'
 import TextInput from '@/Shared/TextInput'
 import LoadingButton from '@/Shared/LoadingButton'
 import TrashedMessage from '@/Shared/TrashedMessage'
-import MultipleSelectInput from '@/Shared/MultipleSelectInput'
+import Multiselect from '@/Shared/Multiselect'
 
 export default {
   components: {
-    MultipleSelectInput,
+    Multiselect,
     Head,
     Link,
     LoadingButton,

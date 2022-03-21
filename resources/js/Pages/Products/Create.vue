@@ -18,9 +18,6 @@
             <option :value="true">Yes</option>
             <option :value="false">No</option>
           </select-input>
-          <multiple-select-input v-model="form.categories" :error="form.errors.categories" class="pt-8 pb-8 pr-6 w-full lg:w-1/2" label="Select multiple categories (Ctrl hold)">
-            <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
-          </multiple-select-input>
           <file-input v-model="form.image" :error="form.errors.image" class="pb-8 pr-6 w-full lg:w-1/2" type="file" accept="image/*" label="Image" />
           <multiple-file-input v-model="form.images" :error="form.errors.images" class="pb-8 pr-6 w-full lg:w-1/2" type="file" accept="image/*" label="Multiple Images" />
         </div>
@@ -39,9 +36,11 @@ import FileInput from '@/Shared/FileInput'
 import MultipleFileInput from '@/Shared/MultipleFileInput'
 import TextInput from '@/Shared/TextInput'
 import SelectInput from '@/Shared/SelectInput'
-import MultipleSelectInput from '@/Shared/MultipleSelectInput'
 import LoadingButton from '@/Shared/LoadingButton'
 import Editor from '@/Shared/Editor'
+
+// import vSelect from '@/Shared/VSelect'
+import vSelect from 'vue-select'
 
 export default {
   components: {
@@ -52,7 +51,7 @@ export default {
     LoadingButton,
     SelectInput,
     TextInput,
-    MultipleSelectInput,
+    vSelect,
     Editor,
   },
   layout: Layout,
@@ -63,6 +62,8 @@ export default {
   },
   data() {
     return {
+      selected: [],
+      
       form: this.$inertia.form({
         name: '',
         details: '',
@@ -85,5 +86,9 @@ export default {
     },
   },
 
+  setSelected(value)
+  {
+    //  trigger a mutation, or dispatch an action
+  }
 }
 </script>

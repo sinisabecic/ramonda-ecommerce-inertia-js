@@ -9,9 +9,7 @@
       <form @submit.prevent="store">
         <div class="flex flex-wrap -mb-8 -mr-6 p-8">
           <text-input v-model="form.name" :error="form.errors.name" class="pb-8 pr-6 w-full lg:w-1/2" label="Role name" />
-          <multiple-select-input v-model="form.permissions" :error="form.errors.permissions" class="pb-8 pr-6 w-full lg:w-1/2" label="Select Permissions (Ctrl hold)" multiple>
-            <option v-for="permission in permissions" :key="permission.id" :value="permission.name">{{ permission.name }}</option>
-          </multiple-select-input>
+          <multiselect v-model="form.permissions" :options="permissions" :error="form.errors.name" class="pb-8 pr-6 w-full lg:w-1/2" label="Select permission(s)" />
         </div>
         <div class="flex items-center justify-end px-8 py-4 bg-gray-50 border-t border-gray-100">
           <loading-button :loading="form.processing" class="btn-indigo" type="submit">Create Role</loading-button>
@@ -26,7 +24,7 @@ import { Head, Link } from '@inertiajs/inertia-vue3'
 import Layout from '@/Shared/Layout'
 import TextInput from '@/Shared/TextInput'
 import LoadingButton from '@/Shared/LoadingButton'
-import MultipleSelectInput from '@/Shared/MultipleSelectInput'
+import Multiselect from '@/Shared/Multiselect'
 
 export default {
   components: {
@@ -34,11 +32,11 @@ export default {
     Link,
     LoadingButton,
     TextInput,
-    MultipleSelectInput,
+    Multiselect,
   },
   layout: Layout,
   remember: 'form',
-  
+
   props: {
     permissions: Array,
   },
