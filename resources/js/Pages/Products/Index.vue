@@ -17,10 +17,16 @@
           <option value="only">Only Trashed</option>
         </select>
       </search-filter>
-      <Link class="btn-indigo" href="/admin/products/create">
-        <span>Create</span>
-        <span class="hidden md:inline">&nbsp;product</span>
-      </Link>
+      <div class="flex justify-end">
+        <Link class="btn-indigo" href="/admin/products">
+          <span>Refresh</span>
+          <span class="hidden md:inline">&nbsp;list</span>
+        </Link>
+        <Link class="btn-indigo ml-1.5" href="/admin/products/create">
+          <span>Create</span>
+          <span class="hidden md:inline">&nbsp;product</span>
+        </Link>
+      </div>
     </div>
     <div class="bg-white rounded-md shadow overflow-x-auto">
       <table class="w-full whitespace-nowrap">
