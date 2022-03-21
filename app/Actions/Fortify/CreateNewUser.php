@@ -45,7 +45,7 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
         ])->validate();
 
-        return User::create([
+        $newUser = User::create([
             'username' => $input['username'],
             'first_name' => $input['first_name'],
             'last_name' => $input['last_name'],
@@ -53,8 +53,9 @@ class CreateNewUser implements CreatesNewUsers
             'password' => Hash::make($input['password']),
             'country_id' => 1,
             'account_id' => 1,
-        ])
-        ->assignRole('User')
-        ->photo()->create(['url' => 'default.png']);
+        ]);
+
+       return $newUser->assignRole('User')->photo()->create(['url' => 'default.png']);
+//        return $newUser;
     }
 }
